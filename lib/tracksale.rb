@@ -16,4 +16,3 @@ module Tracksale
     yield(configuration)
   end
 end
-

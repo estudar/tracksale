@@ -7,6 +7,6 @@ class TracksaleTest < Minitest::Test
       config.key = 'foobar'
     end
 
-    assert_equal 'foobar',Tracksale::Client.new.key
+    assert_equal 'foobar', Tracksale::Client.new.key
   end
 end
