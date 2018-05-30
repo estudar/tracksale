@@ -13,7 +13,6 @@ module Tracksale
 
       @key = Tracksale.configuration.key
       @default_path = '/v2/'
-      @client = HTTParty
     end
 
     def get(endpoint_path, extra_headers = {})
