@@ -6,10 +6,13 @@ Gem::Specification.new do |s|
   s.description = 'Integration gem for tracksale api v2'
   s.authors     = ['Estudar']
   s.email       = 'regis@estudar.org.br'
-  s.files       = Dir['lib/*.rb']
   s.homepage    = 'https://github.com/estudar/tracksale'
   s.metadata    = { 'source_code_uri' =>
         'https://github.com/estudar/tracksale' }
+
+  s.files         = `git ls-files -z`.split("\x0")
+  s.test_files    = s.files.grep(%r{^test/})
+  s.require_paths = ['lib']
 
   s.add_development_dependency 'byebug'
   s.add_development_dependency 'pry-byebug'
