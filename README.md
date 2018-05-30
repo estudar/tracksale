@@ -3,7 +3,7 @@ Tracksale v2 API integration gem.
 
 ## Install
 
-1. Add `gem 'tracksale', github: 'regismesquita/tracksale'` into your Gemfile.
+1. Add `gem 'tracksale', github: 'estudar/tracksale'` into your Gemfile.
 2. run `bundle install`
 
 ## Configure

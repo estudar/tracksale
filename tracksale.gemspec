@@ -4,10 +4,10 @@ Gem::Specification.new do |s|
   s.licenses    = ['MIT']
   s.summary     = 'Integration gem for tracksale api v2'
   s.description = 'Integration gem for tracksale api v2'
-  s.authors     = ['Regis Mesquita']
-  s.email       = 'publicgh@sunrise.33mail.com'
+  s.authors     = ['Estudar']
+  s.email       = 'regis@estudar.org.br'
   s.files       = Dir['lib/*.rb']
-  s.homepage    = 'https://github.com/regismesquita/tracksale'
+  s.homepage    = 'https://github.com/estudar/tracksale'
   s.metadata    = { 'source_code_uri' =>
-        'https://github.com/regismesquita/tracksale' }
+        'https://github.com/estudar/tracksale' }
 end
