@@ -23,5 +23,14 @@ module Tracksale
       request_params[:debug_output] = STDOUT if $DEBUG
       self.class.get(default_path + endpoint_path, request_params)
     end
+
+    def post(endpoint_path, body, extra_headers = {})
+      headers = { 'authorization' => 'bearer ' + key ,
+                  'Content-Type' => 'application/json'}.merge(extra_headers)
+
+      headers[:debug_output] = STDOUT if $DEBUG
+
+      self.class.post(default_path + endpoint_path, headers: headers, body: body.to_json)
+    end
   end
 end
