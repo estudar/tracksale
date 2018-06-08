@@ -2,6 +2,14 @@ module Tracksale
   class Campaign
     attr_accessor :name, :code, :score
 
+    def schedule_dispatch(body)
+      Tracksale::Campaign.client.post('campaign/'+self.code.to_s+'/dispatch',body)
+    end
+
+    def self.schedule_dispatch(code,body)
+      client.post('campaign/'+code.to_s+'/dispatch',body)
+    end
+
     def self.find_by_name(name)
       campaign_found_by_name = raw_all.keep_if { |c| c['name'] == name }.first
       return nil if campaign_found_by_name.nil?
