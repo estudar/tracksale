@@ -3,11 +3,16 @@ module Tracksale
     attr_accessor :name, :code, :score
 
     def schedule_dispatch(body)
-      Tracksale::Campaign.client.post('campaign/'+self.code.to_s+'/dispatch',body)
+      self.class.schedule_dispatch(code, body)
     end
 
-    def self.schedule_dispatch(code,body)
-      client.post('campaign/'+code.to_s+'/dispatch',body)
+    def self.schedule_dispatch(code, body)
+      response = client.post('campaign/' + code.to_s + '/dispatch', body)
+
+      return response if response.success?
+
+      raise ArgumentError, response['error'] if response['error']
+      raise response.response.error!
     end
 
     def self.find_by_name(name)

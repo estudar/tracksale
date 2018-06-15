@@ -25,12 +25,13 @@ module Tracksale
     end
 
     def post(endpoint_path, body, extra_headers = {})
-      headers = { 'authorization' => 'bearer ' + key ,
-                  'Content-Type' => 'application/json'}.merge(extra_headers)
+      headers = { 'authorization' => 'bearer ' + key,
+                  'Content-Type' => 'application/json' }.merge(extra_headers)
 
       headers[:debug_output] = STDOUT if $DEBUG
 
-      self.class.post(default_path + endpoint_path, headers: headers, body: body.to_json)
+      endpoint = default_path + endpoint_path
+      self.class.post(endpoint, headers: headers, body: body.to_json)
     end
   end
 end
