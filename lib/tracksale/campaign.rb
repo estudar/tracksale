@@ -42,7 +42,7 @@ module Tracksale
     end
 
     def self.client
-      Tracksale::Client.new
+      Tracksale.configuration.client.new
     end
   end
 end

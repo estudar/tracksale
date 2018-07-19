@@ -2,16 +2,16 @@ require 'minitest/autorun'
 require 'webmock/minitest'
 require 'tracksale'
 
-class TracksaleCampaignTest < Minitest::Test
+class TestTracksaleCampaign < Minitest::Test
   def setup
-    Tracksale.configure { |c| c.key = 'foobar' }
+    Tracksale.configure { |c| c.key = 'foobar'; c.force_dummy_client(false) }
 
     stub_request(:get, 'http://api.tracksale.co/v2/campaign')
       .with(headers: { 'authorization' => 'bearer foobar' })
       .to_return(body: '[{"name":"random - name",' \
-                      '"code":1234, "detractors":1,' \
-                      '"passives":2, "promoters":3 }]',
-                 headers: { content_type: 'application/json' }, status: 200)
+      '"code":1234, "detractors":1,' \
+      '"passives":2, "promoters":3 }]',
+    headers: { content_type: 'application/json' }, status: 200)
 
     stub_dispatch(121, 200, '{ "msg": "scheduled" }')
     stub_dispatch(123, 400, '{ "error": "Invalid Time"}')
@@ -22,9 +22,9 @@ class TracksaleCampaignTest < Minitest::Test
     url = 'http://api.tracksale.co/v2/campaign/' + code.to_s + '/dispatch'
     stub_request(:post, url)
       .with(headers: { 'authorization' => 'bearer foobar',
-                       'content-type' => 'application/json' }, body: '"foo"')
+      'content-type' => 'application/json' }, body: '"foo"')
       .to_return(body: body,
-                 headers: { content_type: 'application/json' }, status: status)
+      headers: { content_type: 'application/json' }, status: status)
   end
 
   def test_dispatch_successful
