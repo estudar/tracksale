@@ -29,6 +29,11 @@ end
 Also the dummy client accepts a default response that you can set and may be useful for some testings as in:
 
 ``` 
+> Tracksale::DummyClient.response = nil # default value
+=> nil
+> Tracksale::Campaign.all
+=> []
+
 > Tracksale::DummyClient.response = [{
   'name' => 'foo', 
   'code' => 'bar', 
