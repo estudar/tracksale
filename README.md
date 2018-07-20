@@ -1,3 +1,4 @@
+[![Gem Version](https://badge.fury.io/rb/tracksale.svg)](https://badge.fury.io/rb/tracksale)
 # Tracksale
 Tracksale v2 API integration gem.
 
@@ -17,7 +18,32 @@ Tracksale.configure do |config|
 end
 ```
 
+If you want to run the dummy client, which prevents the gem from accessing the API (useful for developers without tracksale credential access) you can:
+
+```
+Tracksale.configure do |config|
+  config.force_dummy_client
+end
+```
+
+Also the dummy client accepts a default response that you can set and may be useful for some testings as in:
+
+``` 
+> Tracksale::DummyClient.response = [{
+  'name' => 'foo', 
+  'code' => 'bar', 
+  'detractors' => '0' , 
+  'passives' => 1, 
+  'promoters' => 2
+}]
+=> [{"name"=>"foo", "code"=>"bar", "detractors"=>"0", "passives"=>1, "promoters"=>2}]
+> Tracksale::Campaign.all
+=> [#<Tracksale::Campaign:0x0055ea11d2b738 @code="bar", @name="foo", @score={:detractors=>"0", :passives=>1, :promoters=>2}>]
+
+```
+
 Key generation instructions can be found on the official documentation at: https://api.tracksale.co/?lang=en#submenu1
+
 ## Using
 
 After configuration you should be able to use it easily as in
