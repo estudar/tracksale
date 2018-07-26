@@ -11,9 +11,9 @@ class TracksaleTest < Minitest::Test
   end
 
   def test_configure_client
-    Tracksale.configure {|c| c.force_dummy_client(false) } #default
+    Tracksale.configure { |c| c.force_dummy_client(false) } # default
     assert_equal Tracksale::Client, Tracksale.configuration.client
-    Tracksale.configure {|c| c.force_dummy_client }
+    Tracksale.configure(&:force_dummy_client)
     assert_equal Tracksale::DummyClient, Tracksale.configuration.client
   end
 end

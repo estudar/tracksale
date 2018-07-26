@@ -22,7 +22,7 @@ module Tracksale
     end
 
     def self.find_by_code(code)
-      campaign_found_by_code = client.get('campaign/'+code.to_s).first
+      campaign_found_by_code = client.get('campaign/' + code.to_s).first
       return nil if campaign_found_by_code.nil?
       create_from_response(campaign_found_by_code)
     end

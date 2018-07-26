@@ -1,6 +1,6 @@
 class TestTracksaleDummyClient < Minitest::Test
   def setup
-    Tracksale.configure { |c| c.force_dummy_client }
+    Tracksale.configure(&:force_dummy_client)
   end
 
   def test_campaign_all_dummy
@@ -13,16 +13,16 @@ class TestTracksaleDummyClient < Minitest::Test
   end
 
   def test_campaign_dispatch_dummy
-    assert_equal Hash.new, Tracksale::Campaign.schedule_dispatch('code','body')
+    assert_equal({}, Tracksale::Campaign.schedule_dispatch('code', 'body'))
   end
 
   def test_allow_explict_response
     response = Object.new
-    response.send :define_singleton_method, :success?, proc {true}
-    Tracksale::DummyClient.response=response
+    response.send :define_singleton_method, :success?, (proc { true })
+    Tracksale::DummyClient.response = response
 
-    assert_equal response,Tracksale::Campaign.schedule_dispatch('code','body')
+    assert_equal response, Tracksale::Campaign.schedule_dispatch('code', 'body')
 
-    Tracksale::DummyClient.response=nil # revert to default
+    Tracksale::DummyClient.response = nil # revert to default
   end
 end

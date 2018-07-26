@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'minitest/autorun'
 require 'webmock/minitest'
 require 'tracksale'
@@ -12,12 +11,11 @@ class TestTracksaleAnswer < Minitest::Test
     '"passives":2, "promoters":3 }]'
 
     stub_request(:get, 'http://api.tracksale.co/v2/campaign/7')
-    .with(headers: { 'authorization' => 'bearer foobar' })
-    .to_return(body: body_for_campaign,
-    headers: { content_type: 'application/json' }, status: 200)
+      .with(headers: { 'authorization' => 'bearer foobar' })
+      .to_return(body: body_for_campaign,
+                 headers: { content_type: 'application/json' }, status: 200)
 
-
-    stub_request(:get, 'http://api.tracksale.co/v2/report/answer?tags=true&limit='+Tracksale::Answer::LIMIT.to_s)
+    stub_request(:get, 'http://api.tracksale.co/v2/report/answer?tags=true&limit=' + Tracksale::Answer::LIMIT.to_s)
       .with(headers: { 'authorization' => 'bearer foobar' })
       .to_return(body: '[{
         "time": 1532611646,
@@ -65,18 +63,18 @@ class TestTracksaleAnswer < Minitest::Test
        ]
     }
 ]',
-    headers: { content_type: 'application/json' }, status: 200)
+                 headers: { content_type: 'application/json' }, status: 200)
   end
 
   def test_answer_tags
     assert subject.respond_to? :tags
-    expected_tags = { 'test1'=>'test2', 'test3' => 'test4'}
+    expected_tags = { 'test1' => 'test2', 'test3' => 'test4' }
     assert_equal expected_tags, subject.tags
   end
 
   def test_justifications
     assert subject.respond_to? :justifications
-    expected_justifications = [{ 'foo'=>['bar','bar2','bar3'] }]
+    expected_justifications = [{ 'foo' => %w[bar bar2 bar3] }]
     assert_equal expected_justifications, subject.justifications
   end
 

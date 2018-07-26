@@ -1,16 +1,14 @@
-# -*- coding: utf-8 -*-
 module Tracksale
   class Answer
-    LIMIT=-1
+    LIMIT = -1
 
     attr_accessor :time, :type, :name,
-      :email, :identification, :phone,
-      :nps_answer, :last_nps_answer, :nps_comment,
-      :campaign_name, :campaign_code, :id,
-      :deadline, :elapsed_time, :dispatch_time,
-      :reminder_time, :status, :tags,
-      :categories, :justifications
-
+                  :email, :identification, :phone,
+                  :nps_answer, :last_nps_answer, :nps_comment,
+                  :campaign_name, :campaign_code, :id,
+                  :deadline, :elapsed_time, :dispatch_time,
+                  :reminder_time, :status, :tags,
+                  :categories, :justifications
 
     def campaign
       Tracksale::Campaign.find_by_code(campaign_code)
@@ -42,7 +40,7 @@ module Tracksale
           answer.status = raw_response['status']
           answer.tags = convert_tags(raw_response['tags'])
           answer.categories = raw_response['categories'].map { |c| c['name'] }
-          answer.justifications = convert_list_to_objects(raw_response['justifications'])
+          answer.justifications = convert_justif(raw_response['justifications'])
         end
       end
 
@@ -55,16 +53,16 @@ module Tracksale
       end
 
       def convert_tags(tags)
-        tags.map { |tag|
+        tags.map do |tag|
           { tag['name'] => tag['value'] }
-        }.reduce(&:merge)
+        end.reduce(&:merge)
       end
 
-      def convert_list_to_objects(multiple_answers)
+      def convert_justif(multiple_answers)
         multiple_answers.map do |single_answer|
           {
-            JSON.load(single_answer['name']).values.first =>
-              single_answer['children'].map { |child| JSON.load(child).values.first}
+            JSON.parse(single_answer['name']).values.first =>
+              single_answer['children'].map { |c| JSON.parse(c).values.first }
           }
         end
       end

@@ -7,7 +7,7 @@ module Tracksale
       @client ||= Tracksale::Client
     end
 
-    def force_dummy_client(on=true)
+    def force_dummy_client(on = true)
       @client = on ?
         Tracksale::DummyClient :
         Tracksale::Client

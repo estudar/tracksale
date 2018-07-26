@@ -1,19 +1,21 @@
 module Tracksale
   class DummyClient
     class << self
-      attr_accessor :response #Easy way to force a response
+      attr_accessor :response # Easy way to force a response
     end
 
     def initialize
       puts 'running tracksale dummy client, do not expect real responses.' if $DEBUG
     end
 
-    def get(endpoint_path, extra_headers = {}) #maintaining the same method signature as the real client
-      self.response
+    # maintaining the same method signature as the real client
+    def get(_endpoint_path, _extra_headers = {})
+      response
     end
 
-    def post(endpoint_path, body, extra_headers = {}) #maintaining the same method signature as the real client
-      self.response
+    # maintaining the same method signature as the real client
+    def post(_endpoint_path, _body, _extra_headers = {})
+      response
     end
 
     def default_response_object
@@ -23,11 +25,11 @@ module Tracksale
         true
       end
 
-      return response
+      response
     end
 
     def response
-      #definies a default valid response unless explicity defined.
+      # definies a default valid response unless explicity defined.
       self.class.response || default_response_object
     end
   end

@@ -13,14 +13,12 @@ class TestTracksaleCampaign < Minitest::Test
     stub_request(:get, 'http://api.tracksale.co/v2/campaign')
       .with(headers: { 'authorization' => 'bearer foobar' })
       .to_return(body: body_for_campaign,
-    headers: { content_type: 'application/json' }, status: 200)
-
+                 headers: { content_type: 'application/json' }, status: 200)
 
     stub_request(:get, 'http://api.tracksale.co/v2/campaign/771')
       .with(headers: { 'authorization' => 'bearer foobar' })
       .to_return(body: body_for_campaign,
-    headers: { content_type: 'application/json' }, status: 200)
-
+                 headers: { content_type: 'application/json' }, status: 200)
 
     stub_dispatch(121, 200, '{ "msg": "scheduled" }')
     stub_dispatch(123, 400, '{ "error": "Invalid Time"}')
@@ -31,9 +29,9 @@ class TestTracksaleCampaign < Minitest::Test
     url = 'http://api.tracksale.co/v2/campaign/' + code.to_s + '/dispatch'
     stub_request(:post, url)
       .with(headers: { 'authorization' => 'bearer foobar',
-      'content-type' => 'application/json' }, body: '"foo"')
+                       'content-type' => 'application/json' }, body: '"foo"')
       .to_return(body: body,
-      headers: { content_type: 'application/json' }, status: status)
+                 headers: { content_type: 'application/json' }, status: status)
   end
 
   def test_dispatch_successful
@@ -90,6 +88,7 @@ class TestTracksaleCampaign < Minitest::Test
     assert Tracksale::Campaign.find_by_code(771).respond_to? :name
     assert_equal 'random - name', Tracksale::Campaign.find_by_code(771).name
   end
+
   private
 
   def subject
