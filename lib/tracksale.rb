@@ -1,6 +1,7 @@
 require 'httparty'
 require 'tracksale/configuration'
 require 'tracksale/client'
+require 'tracksale/answer'
 require 'tracksale/dummy_client'
 require 'tracksale/campaign'
 

@@ -21,6 +21,12 @@ module Tracksale
       create_from_response(campaign_found_by_name)
     end
 
+    def self.find_by_code(code)
+      campaign_found_by_code = client.get('campaign/'+code.to_s).first
+      return nil if campaign_found_by_code.nil?
+      create_from_response(campaign_found_by_code)
+    end
+
     def self.all
       raw_all.map { |campaign| create_from_response(campaign) }
     end

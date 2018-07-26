@@ -6,12 +6,21 @@ class TestTracksaleCampaign < Minitest::Test
   def setup
     Tracksale.configure { |c| c.key = 'foobar'; c.force_dummy_client(false) }
 
+    body_for_campaign = '[{"name":"random - name",' \
+      '"code":1234, "detractors":1,' \
+      '"passives":2, "promoters":3 }]'
+
     stub_request(:get, 'http://api.tracksale.co/v2/campaign')
       .with(headers: { 'authorization' => 'bearer foobar' })
-      .to_return(body: '[{"name":"random - name",' \
-      '"code":1234, "detractors":1,' \
-      '"passives":2, "promoters":3 }]',
+      .to_return(body: body_for_campaign,
     headers: { content_type: 'application/json' }, status: 200)
+
+
+    stub_request(:get, 'http://api.tracksale.co/v2/campaign/771')
+      .with(headers: { 'authorization' => 'bearer foobar' })
+      .to_return(body: body_for_campaign,
+    headers: { content_type: 'application/json' }, status: 200)
+
 
     stub_dispatch(121, 200, '{ "msg": "scheduled" }')
     stub_dispatch(123, 400, '{ "error": "Invalid Time"}')
@@ -77,6 +86,10 @@ class TestTracksaleCampaign < Minitest::Test
     assert Tracksale::Campaign.all.first.is_a? Tracksale::Campaign
   end
 
+  def test_find_by_code
+    assert Tracksale::Campaign.find_by_code(771).respond_to? :name
+    assert_equal 'random - name', Tracksale::Campaign.find_by_code(771).name
+  end
   private
 
   def subject

@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'tracksale'
-  s.version     = '0.0.4'
+  s.version     = '0.0.5'
   s.licenses    = ['MIT']
   s.summary     = 'Integration gem for tracksale api v2'
   s.description = 'Integration gem for tracksale api v2'
