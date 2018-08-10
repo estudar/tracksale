@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'minitest/autorun'
 require 'webmock/minitest'
 require 'tracksale'
@@ -15,7 +16,12 @@ class TestTracksaleAnswer < Minitest::Test
       .to_return(body: body_for_campaign,
                  headers: { content_type: 'application/json' }, status: 200)
 
-    stub_request(:get, 'http://api.tracksale.co/v2/report/answer?tags=true&limit=' + Tracksale::Answer::LIMIT.to_s)
+
+    
+    stub_request(:get, 'http://api.tracksale.co/v2/report/answer?tags=true&limit=' +
+      Tracksale::Answer::LIMIT.to_s +
+      '&start='+(Time.now-86_400).strftime('%Y-%m-%d') +
+      '&end='+(Time.now+86_400).strftime('%Y-%m-%d'))
       .with(headers: { 'authorization' => 'bearer foobar' })
       .to_return(body: '[{
         "time": 1532611646,

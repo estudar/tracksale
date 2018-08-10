@@ -15,8 +15,8 @@ module Tracksale
     end
 
     class << self
-      def all
-        raw_all.map { |answer| create_from_response(answer) }
+      def all( start_time=(Time.now-86_400), end_time=(Time.now+86_400))
+        raw_all(start_time,end_time).map { |answer| create_from_response(answer) }
       end
 
       def create_from_response(raw_response)
@@ -44,8 +44,12 @@ module Tracksale
         end
       end
 
-      def raw_all
-        client.get('report/answer?tags=true&limit=' + LIMIT.to_s)
+      def raw_all( start_time=(Time.now-86_400), end_time=(Time.now+86_400))
+        start_date = start_time.strftime('%Y-%m-%d')
+        end_date = end_time.strftime('%Y-%m-%d')
+        all_request = "report/answer?tags=true&limit=#{LIMIT}&start=#{start_date}&end=#{end_date}"
+
+        client.get(all_request)
       end
 
       def client
