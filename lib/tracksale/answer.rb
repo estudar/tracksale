@@ -64,10 +64,15 @@ module Tracksale
 
       def convert_justif(multiple_answers)
         multiple_answers.map do |single_answer|
-          {
-            JSON.parse(single_answer['name']).values.first =>
-              single_answer['children'].map { |c| JSON.parse(c).values.first }
-          }
+          begin
+            {
+              JSON.parse(single_answer['name']).values.first =>
+                single_answer['children'].map { |c| JSON.parse(c).values.first }
+            }
+
+          rescue JSON::ParserError
+            { single_answer['name'] => single_answer['children'] }
+          end
         end
       end
     end

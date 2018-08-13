@@ -70,6 +70,59 @@ class TestTracksaleAnswer < Minitest::Test
     }
 ]',
                  headers: { content_type: 'application/json' }, status: 200)
+    #Second type of justifications return.
+    stub_request(:get, 'http://api.tracksale.co/v2/report/answer?tags=true&limit=' +
+      Tracksale::Answer::LIMIT.to_s +
+      '&start='+(Time.at(1000)).strftime('%Y-%m-%d') +
+      '&end='+(Time.at(1000)).strftime('%Y-%m-%d'))
+      .with(headers: { 'authorization' => 'bearer foobar' })
+      .to_return(body: '[{
+        "time": 1532611646,
+        "type": "Email",
+        "name": "Um Dois Tres Quatro",
+        "email": "emailaleatorio@gmail.com",
+        "identification": null,
+        "phone": null,
+        "alternative_email": null,
+        "alternative_phone": null,
+        "nps_answer": 10,
+        "last_nps_answer": null,
+        "nps_comment": null,
+        "campaign_name": "Campanha de Teste",
+        "campaign_code": 7,
+        "id": 11112222,
+        "deadline": null,
+        "elapsed_time": 116,
+        "dispatch_time": null,
+        "reminder_time": null,
+        "status": "Não precisa contatar",
+        "priority": "Nenhuma",
+        "assignee": "Boris",
+        "picture": null,
+        "tags": [
+            {
+                "name": "test1",
+                "value": "test2"
+            },
+            {
+                "name": "test3",
+                "value": "test4"
+            }
+        ],
+        "categories": [],
+        "justifications": [
+            {
+                "name": "foo2",
+                "children": [
+                    "bar5",
+                    "bar6",
+                    "bar7"
+                ]
+            }
+       ]
+    }
+]',
+                 headers: { content_type: 'application/json' }, status: 200)
   end
 
   def test_answer_tags
@@ -82,6 +135,13 @@ class TestTracksaleAnswer < Minitest::Test
     assert subject.respond_to? :justifications
     expected_justifications = [{ 'foo' => %w[bar bar2 bar3] }]
     assert_equal expected_justifications, subject.justifications
+  end
+
+  def test_justifications_second_type
+    answer = Tracksale::Answer.all(Time.at(1000),Time.at(1000)).first
+    assert answer.respond_to? :justifications
+    expected_justifications = [{ 'foo2' => %w[bar5 bar6 bar7] }]
+    assert_equal expected_justifications, answer.justifications
   end
 
   def test_campaign
