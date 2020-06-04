@@ -4,7 +4,7 @@ module Tracksale
     attr_accessor :default_path
     include HTTParty
     # api.tracksale.co/v2/login
-    base_uri 'http://api.tracksale.co'
+    base_uri 'https://api.tracksale.co'
 
     def initialize
       if Tracksale.configuration.key.nil?
